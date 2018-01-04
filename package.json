@@ -1,0 +1,28 @@
+{
+  "name": "sharebook",
+  "version": "1.0.0",
+  "description": "Platform to share thoughts and ideas",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fdarius2014/Share-Book.git"
+  },
+  "keywords": [
+    "ShareBook",
+    "Application"
+  ],
+  "author": "Francis Darius",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fdarius2014/Share-Book/issues"
+  },
+  "homepage": "https://github.com/fdarius2014/Share-Book#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "mongodb": "^3.0.1",
+    "mongoose": "^5.0.0-rc1"
+  }
+}
