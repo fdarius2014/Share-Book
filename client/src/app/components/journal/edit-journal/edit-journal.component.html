@@ -1,0 +1,24 @@
+<div class="container">
+  <h1 class="page-header">Edit Journal</h1>
+  <div *ngIf="message">
+    <div [ngClass]="messageClass">
+      {{message}}
+    </div>
+  </div>
+
+  <form (submit)="updateJournalSubmit()" *ngIf="!loading">
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input [disabled]="processing" type="text" name="title" placeholder="*Journal Title" class="form-control" [(ngModel)]="journal.title" />
+    </div>
+    <div class="form-group">
+      <label for="body">Body</label>
+      <textarea [disabled]="processing" name="body" rows="8" cols="80" [(ngModel)]="journal.body" class="form-control" placeholder="*Journal Body"></textarea>
+    </div>
+
+    <!-- <a [routerLink]="['/delete-journal/', journal._id]"><button [disabled]="processing" type="button" name="button" class="btn btn-danger">Delete</button></a> -->
+    <button [disabled]="processing" type="button" name="button" class="btn btn-danger" (click)="deleteJournal()">Delete</button>
+    <button [disabled]="processing" type="button" name="button" class="btn btn-success" (click)="goBack()">Go Back</button>
+    <button [disabled]="processing" type="submit" name="save" class="btn btn-info">Save Changes</button>
+  </form>
+</div>

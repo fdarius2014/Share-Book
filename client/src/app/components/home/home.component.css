@@ -1,0 +1,211 @@
+@font-face {
+  font-family: 'icomoon';
+  src: url("../../../assets/fonts/icomoon/icomoon.eot?srf3rx");
+  src: url("../../../assets/fonts/icomoon/icomoon.eot?srf3rx#iefix") format("embedded-opentype"), url("../../../assets/fonts/icomoon/icomoon.ttf?srf3rx") format("truetype"), url("../../../assets/fonts/icomoon/icomoon.woff?srf3rx") format("woff"), url("../../../assets/fonts/icomoon/icomoon.svg?srf3rx#icomoon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "PT Sans", Arial, serif !important;
+  font-weight: 300;
+  font-size: 20px;
+  line-height: 1.5;
+  color: #666666;
+  color: #7f7f7f;
+  background: #fff;
+  height: 100%;
+  position: relative;
+}
+
+a {
+  color: #ff3b30;
+  -webkit-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
+}
+a:hover, a:active, a:focus {
+  color: #ff3b30;
+  outline: none;
+}
+
+p {
+  margin-bottom: 1.5em;
+  font-size: 16px;
+  font-weight: 100;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #333;
+  font-family: "PT Sans", Arial, serif;
+  font-weight: 100;
+  margin: 0 0 30px 0;
+}
+
+
+::-webkit-selection {
+  color: #fff;
+  background: #1fb5f6;
+}
+
+::-moz-selection {
+  color: #fff;
+  background: #1fb5f6;
+}
+
+::selection {
+  color: #fff;
+  background: #1fb5f6;
+}
+
+.carousel-item {
+  height: 100vh;
+  min-height: 300px;
+  width: 100%;
+  background: no-repeat center center scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.logo-font {
+  font: 200 25px/1.5 'Pacifico', Helvetica, sans-serif;
+  color: #FFFFFF;
+  text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+  /* text-shadow: 3px 3px 0px rgba(0,0,0,0.1), 7px 7px 0px rgba(0,0,0,0.05); */
+}
+
+.carousel-caption {
+  font-size: 50px;
+  top: 50%;
+  bottom: auto;
+}
+
+.carousel-caption > p {
+  font-size: 50px;
+}
+
+.fh5co-explore {
+  padding-bottom: 40px;
+}
+
+.fh5co-explore-bg-color {
+  width: 100%;
+  background: #f1f1f1;
+  padding: 80px 0;
+  margin-bottom: 0;
+}
+
+#fh5co-services, #fh5co-testimony, #fh5co-explore, #fh5co-faq, #fh5co-team, #fh5co-trusted, #fh5co-footer {
+  padding: 5em 0;
+}
+@media screen and (max-width: 768px) {
+  #fh5co-services, #fh5co-testimony, #fh5co-explore, #fh5co-faq, #fh5co-team, #fh5co-trusted, #fh5co-footer {
+    padding: 2em 0;
+  }
+}
+
+.mt {
+  margin-top: 80px;
+  margin-bottom: 80px;
+}
+.mt h4 {
+  position: relative;
+  padding-left: 40px;
+  font-size: 20px;
+}
+.mt h4 i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #1fb5f6;
+}
+.mt > div {
+  margin-bottom: 40px;
+}
+.mt .list-nav {
+  margin: 50px 0 0 0;
+  padding: 0;
+}
+.mt .list-nav li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  padding-left: 30px;
+  margin-bottom: 10px;
+  position: relative;
+}
+.mt .list-nav li i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 18px;
+  color: #1fb5f6;
+}
+
+.section-heading {
+  float: left;
+  width: 100%;
+  padding-bottom: 50px;
+  margin-bottom: 0px;
+  clear: both;
+}
+.section-heading h2 {
+  margin: 0 0 0 0;
+  font-size: 40px;
+  font-weight: 400;
+  color: #333;
+  position: relative;
+  display: block;
+  padding-bottom: 10px;
+  line-height: 1.5;
+}
+@media screen and (max-width: 768px) {
+  .section-heading h2 {
+    font-size: 28px;
+  }
+}
+.section-heading h3 {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #8f989f;
+  position: relative;
+  display: block;
+  padding-bottom: 30px;
+}
+.section-heading h3:after {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 50px;
+  height: 2px;
+  background: #1fb5f6;
+  left: 50%;
+  margin-left: -25px;
+  bottom: 0;
+}
+@media screen and (max-width: 768px) {
+  .section-heading h3 {
+    font-size: 16px !important;
+    line-height: 28px;
+  }
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:active,
+.btn-outline-primary.active {
+  color: #d62b80;
+  border-color: #d62b80;
+  background-color: transparent;
+}
+
+.btn-outline-primary {
+  color: #ffffff;
+  background-color: #851854;
+  border-color: #5e113a;
+  font-weight: 200;
+}

@@ -1,0 +1,96 @@
+/* @import "~@angular/material/prebuilt-themes/indigo-pink.css"; */
+.left-side {
+  position: relative;
+  min-height: 100vh;
+  text-align: center;
+  background: #000 url('../../../assets/images/signup1.jpg') no-repeat center;
+    opacity: 0.8;
+    filter: alpha(opacity=50); /* For IE8 and earlier */
+  background-size: cover;
+  color: #FFFFFF;
+}
+
+.right-side {
+  position: relative;
+  padding: 120px 120px 100px 120px;
+  height: 100vh;
+  background: #fff;
+}
+
+.left-side header {
+  position: relative;
+  margin-top: 80px;
+}
+.left-side header span {
+  margin-bottom: 6px;
+  display: block;
+  font-family: 'lato', sans-serif;
+  text-transform: uppercase;
+  font-size: 13px;
+  color: #999;
+  letter-spacing: 0.12em;
+}
+.left-side header h3 {
+  margin: 0;
+  display: block;
+  font-family: 'lato', sans-serif;
+  text-transform: uppercase;
+  font-size: 30px;
+  font-weight: 200;
+  line-height: 72px;
+  letter-spacing: 0.06em;
+}
+
+.right-side .input {
+  margin-top: 0;
+  margin-left: 0;
+}
+
+.terms {
+  color: #b39dab;
+}
+
+.terms:hover {
+  color: black;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:active,
+.btn-outline-primary.active {
+  color: #d62b80;
+  border-color: #d62b80;
+  background-color: transparent;
+}
+
+.btn-outline-primary {
+  color: #ffffff;
+  background-color: #851854;
+  border-color: #5e113a;
+  font-weight: 200;
+  border-radius: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.form-group {
+  margin-top: 40px;
+  font-family: "PT Sans", Arial, serif;
+  font-weight: 100;
+}
+
+.help-block {
+  margin-bottom: -20px;
+  color: red;
+}
+
+@media screen and (max-width: 703px) {
+  #signup_mobile {
+    visibility: hidden;
+    clear: both;
+    float: left;
+    margin: 10px auto 5px 20px;
+    width: 28%;
+    display: none;
+  }
+}

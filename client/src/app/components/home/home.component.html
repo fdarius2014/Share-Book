@@ -1,0 +1,105 @@
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+  <ol class="carousel-indicators">
+    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner" role="listbox">
+    <!-- Slide One - Set the background image for this slide in the line below -->
+    <div class="carousel-item active" style="background-image: url('assets/images/home1.jpg')">
+      <div class="carousel-caption d-md-block">
+        <h3 class="logo-font">ShareBook</h3>
+        <p>Think. Write. Share.</p>
+        <button *ngIf="!authService.loggedIn()" type="button" class="btn btn-outline-primary" routerLink="/signup">Signup</button>
+        <button *ngIf="!authService.loggedIn()" type="button" class="btn btn-outline-info" routerLink="/login">Login</button>
+        <button *ngIf="authService.loggedIn()" type="button" class="btn btn-outline-info" routerLink="/journal">View Journals</button>
+      </div>
+    </div>
+    <!-- Slide Two - Set the background image for this slide in the line below -->
+    <div class="carousel-item" style="background-image: url('assets/images/home2.jpg')">
+      <div class="carousel-caption d-md-block">
+        <h3 class="logo-font">Develop Relationships</h3>
+        <p>The key to any relationship is communication.</p>
+      </div>
+    </div>
+    <!-- Slide Three - Set the background image for this slide in the line below -->
+    <div class="carousel-item" style="background-image: url('assets/images/home3.jpg')">
+      <div class="carousel-caption d-md-block">
+        <h3 class="logo-font">Express Yourself</h3>
+        <p>Your ideas are worth sharing.</p>
+      </div>
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+
+<section *ngIf="!authService.loggedIn()" id="fh5co-explore" data-section="explore">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 section-heading text-center">
+				<h2 class="to-animate">Features</h2>
+				<div class="row">
+					<div class="col-md-12 col-md-offset-2 subtext to-animate">
+						<h3>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</h3>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="fh5co-explore">
+		<div class="">
+			<div class="row">
+				<div class="col-md-4 col-md-pull-5 to-animate-2">
+					<div class="mt" style="margin-left:20px;">
+						<h3>Real Project For Real Solutions</h3>
+						<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. </p>
+						<ul class="list-nav" style="font-weight: 100;">
+							<li><i class="icon-check2"></i>Far far away, behind the word</li>
+							<li><i class="icon-check2"></i>There live the blind texts</li>
+							<li><i class="icon-check2"></i>Separated they live in bookmarksgrove</li>
+							<li><i class="icon-check2"></i>Semantics a large language ocean</li>
+							<li><i class="icon-check2"></i>A small river named Duden</li>
+						</ul>
+					</div>
+				</div>
+        <div class="col-md-8 col-md-push-5 to-animate-2">
+					<img class="img-fluid float-right" src="assets/images/work_1.png" alt="work">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="fh5co-explore fh5co-explore-bg-color">
+		<div class="">
+			<div class="row">
+				<div class="col-md-8 col-md-pull-1 to-animate-3">
+					<img class="img-fluid" src="assets/images/work_1.png" alt="work">
+				</div>
+				<div class="col-md-4 to-animate-3">
+					<div class="mt" style="margin-right:20px;">
+						<div>
+							<h4><i class="icon-people"></i>Real Project For Real Solutions</h4>
+							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. </p>
+						</div>
+						<div>
+							<h4><i class="icon-video2"></i>Real Project For Real Solutions</h4>
+							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. </p>
+						</div>
+						<div>
+							<h4><i class="icon-shield"></i>Real Project For Real Solutions</h4>
+							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. </p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

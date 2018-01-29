@@ -1,0 +1,156 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-9 main-content">
+      <h1 class="page-header">Journal Feed</h1>
+
+      <div *ngIf="message && newPost">
+        <div [ngClass]="messageClass">
+          {{ message }}
+        </div>
+      </div>
+      <div class="button-wrapper">
+        <button type="button" name="button" class="btn btn-warning btn-circle btn-lg" *ngIf="!newPost" (click)="newJournalForm()" data-tooltip="New Post"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+        <button [disabled]="loadingJournals" type="button" name="button" class="btn btn-info btn-circle btn-lg" *ngIf="!newPost" (click)="reloadJournals()" style="margin-left: 20px;" data-tooltip="Reload"><i class="fa fa-repeat" aria-hidden="true"></i></button>
+      </div>
+
+      <br />
+      <br />
+
+      <!--New Journal Form -->
+      <form [formGroup]="form" name="journalForm" (submit)="onJournalSubmit()" *ngIf="newPost">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <div [ngClass]="{'has-success': form.controls.title.valid, 'has-error': form.controls.title.dirty && form.controls.title.errors}">
+            <input type="text" name="title" class="form-control" placeholder="*Journal Title" autocomplete="off" formControlName="title" />
+            <ul class="help-block">
+              <li *ngIf="form.controls.title.dirty && form.controls.title.errors?.required">This field is required.</li>
+              <li *ngIf="(form.controls.title.dirty && form.controls.title.errors?.minlength) || (form.controls.title.dirty && form.controls.title.errors?.maxlength)">Max length: 50, Min length: 5</li>
+              <li *ngIf="form.controls.title.dirty && form.controls.title.errors?.alphaNumericValidation">Must be a letter or number.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="title">Body</label>
+          <div [ngClass]="{'has-success': form.controls.body.valid, 'has-error': form.controls.body.dirty && form.controls.body.errors}">
+            <textarea name="body" rows="8" cols="80" placeholder="*Body" class="form-control" formControlName="body"></textarea>
+            <ul class="help-block">
+              <li *ngIf="form.controls.body.dirty && form.controls.body.errors?.required">This field is required.</li>
+              <li *ngIf="(form.controls.body.dirty && form.controls.body.errors?.minlength) || (form.controls.body.dirty && form.controls.body.errors?.maxlength)">Max length: 500, Min length: 5</li>
+            </ul>
+          </div>
+        </div>
+        <button [disabled]="processing" type="button" name="button" class="btn btn-warning" (click)="goBack()">Go Back</button>
+        <button [disabled]="processing || !form.valid" type="submit" name="button" class="btn btn-success">Submit</button>
+      </form>
+      <!--New Journal Form Ending -->
+
+      <div *ngIf="!newPost" class="container-fluid">
+        <div class="card" *ngFor="let journal of journalPosts" style="margin-top: 20px !important; font-weight: 100; max-width: 500px; margin: auto;">
+          <div class="card-header" style="background-color: #851854; color: white; height: 50px; opacity: 0.65">
+            <h4 class="card-title text-center" style="font-weight: 300;">{{ journal.title }}</h4>
+          </div>
+          <div class="card-block" style="margin-top: 15px; margin-bottom: 15px;">
+            <div class="card-text container">
+              {{ journal.body }}
+            </div>
+          </div>
+          <!--start footer-->
+          <div class="card-footer">
+            <strong>Posted by: </strong>{{ journal.createdBy }}
+            <br />
+            <strong>Date: </strong>{{ journal.createdAt | date:'MMM dd, yyyy' }}
+            <br />
+            <div *ngIf="username === journal.createdBy">
+              <strong>Likes: </strong>{{ journal.likes }}
+              <br />
+              <strong>Dislikes: </strong>{{ journal.dislikes }}
+            </div>
+            <a [routerLink]="['/edit-journal/', journal._id]" *ngIf="username === journal.createdBy"><button type="button" name="button" class="btn btn-sm btn-info">Edit</button></a>
+            <a *ngIf="username === journal.createdBy"><button type="button" name="button" class="btn btn-sm btn-danger" (click)="deleteJournal(journal._id, journal.title)">Delete</button></a>
+            <!-- likes dropdown begin-->
+            <div *ngIf="username !== journal.createdBy" class="dropdown" style="margin-top: 10px;">
+              <button [disabled]="journal.likedBy.indexOf(username) > -1" type="button" name="button" class="btn btn-success btn-circle" (click)="likeJournal(journal._id)">
+                <i class="fa fa-thumbs-up" aria-hidden="true">&nbsp;</i>
+              </button> {{ journal.likes }}
+              <div class="dropdown-content">
+                <a [routerLink]="['/user/', liker]" *ngFor="let liker of journal.likedBy">{{ liker }}</a>
+              </div>
+            </div>
+            <!--likes dropdown end -->
+            <!-- dislikes dropdown begin-->
+            <div *ngIf="username !== journal.createdBy" class="dropdown">
+              <button [disabled]="journal.dislikedBy.indexOf(username) > -1" type="button" name="button" class="btn btn-success btn-circle" (click)="dislikeJournal(journal._id)" style="margin-left:10px;">
+                <i class="fa fa-thumbs-down" aria-hidden="true">&nbsp;</i>
+              </button> {{ journal.dislikes }}
+              <div class="dropdown-content">
+                <a [routerLink]="['/user/', disliker]" *ngFor="let disliker of journal.dislikedBy">{{ disliker}}</a>
+              </div>
+            </div>
+            <!--dislikes dropdown end -->
+          </div>
+          <!-- end footer-->
+          <ul class="list-group">
+            <li class="list-group-item">
+              <button type="button" name="button" class="btn btn-sm btn-danger" (click)="draftComment()" style="border-radius: 25px; font-weight: 100;">Post Comment</button>
+              <br />
+              <!-- <form>
+                <textarea name="comment" rows="10" cols="30" class="form-control"></textarea>
+                <button type="button" name="button" class="btn btn-sm btn-info">Submit Post</button>
+                <button type="button" name="button" class="btn btn-sm btn-danger">Cancel Comment</button>
+              </form> -->
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 side-pane">
+      <table class="group-table table summary-table">
+                               <thead class="table-setting">
+                                   <tr>
+                                       <th class="col-1"><p>Date</p></th>
+                                       <th>Details</th>
+                                       <th></th>
+                                   </tr>
+                               </thead>
+                               <tbody>
+                                   <tr>
+                                       <td class="col-1"><p>Wed Jan 18, 2017</p></td>
+                                       <td class="col-2"><p><img src="images/Ico_Assignment_table@3x.png"><span style="padding-left: 15px;"><a href="">Week 1 Participation</a></span></p></td>
+                                       <td class="col-3"><p>due by 11:59 pm</p></td>
+                                   </tr>
+
+                                   <tr>
+                                       <td class="col-1"><p>Wed Jan 18, 2017</p></td>
+                                       <td class="col-2"><p><img src="images/Ico_Assignment_table@3x.png"><span style="padding-left: 15px;"><a href="">Week 1 Participation</a></span></p></td>
+                                       <td class="col-3"><p>due by 11:59 pm</p></td>
+                                   </tr>
+
+                                   <tr>
+                                       <td class="col-1" rowspan="2"><p>Wed Jan 18, 2017</p></td>
+                                       <td class="col-2"><p><img src="images/Ico_Assignment_table@3x.png"><span style="padding-left: 15px;"><a href="">Week 1 Participation</a></span></p></td>
+                                       <td class="col-3"><p>due by 11:59 pm</p></td>
+                                   </tr>
+
+                                   <tr>
+                                       <td class="col-2"><p><img src="images/Ico_Assignment_table@3x.png"><span style="padding-left: 15px;"><a href="">Week 1 Participation</a></span></p></td>
+                                       <td class="col-3"><p>due by 11:59 pm</p></td>
+                                   </tr>
+
+                                   <tr>
+                                       <td class="col-1"><p>Wed Jan 18, 2017</p></td>
+                                       <td class="col-2"><p><img src="images/Ico_Assignment_table@3x.png"><span style="padding-left: 15px;"><a href="">Week 1 Participation</a></span></p></td>
+                                       <td class="col-3"><p>due by 11:59 pm</p></td>
+                                   </tr>
+
+                                   <tr>
+                                       <td class="col-1" rowspan="5"><p>Wed Jan 18, 2017</p></td>
+                                       <td class="col-2"><p><img src="images/Ico_Assignment_table@3x.png"><span style="padding-left: 15px;"><a href="">Week 1 Participation</a></span></p></td>
+                                       <td class="col-3"><p>due by 11:59 pm</p></td>
+                                   </tr>
+
+
+                               </tbody>
+                           </table>
+    </div>
+  </div>
+</div>
