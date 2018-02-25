@@ -5,6 +5,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { PublicProfileComponent } from './components/public-profile/public-profile.component';
 import { JournalComponent } from './components/journal/journal.component';
 import { EditJournalComponent } from './components/journal/edit-journal/edit-journal.component';
 import { AuthGuard } from './guards/auth.guard';
@@ -33,6 +34,11 @@ const appRoutes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'user/:username',
+    component: PublicProfileComponent,
     canActivate: [AuthGuard]
   },
   {

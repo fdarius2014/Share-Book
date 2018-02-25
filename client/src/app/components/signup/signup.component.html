@@ -22,7 +22,7 @@
                 <li *ngIf="form.controls.email.errors?.required && form.controls.email.dirty">This field is required</li>
                 <li *ngIf="(form.controls.email.errors?.minlength || form.controls.email.errors?.maxlength) && form.controls.email.dirty">Minimum characters: 5, Maximum characters: 30</li>
                 <li *ngIf="form.controls.email.errors?.validateEmail && form.controls.email.dirty">This must be a valid e-mail</li>
-                <li *ngIf="emailMessage">{{ emailMessage }}</li>
+                <!-- <li *ngIf="emailMessage">{{ emailMessage }}</li> -->
               </ul>
             </div>
           </div>
@@ -34,7 +34,7 @@
                 <li *ngIf="form.controls.username.errors?.required && form.controls.username.dirty">This field is required</li>
                 <li *ngIf="(form.controls.username.errors?.minlength || form.controls.username.errors?.maxlength) && form.controls.username.dirty">Minimum characters: 3, Maximum characters: 15</li>
                 <li *ngIf="form.controls.username.errors?.validateUsername && form.controls.username.dirty">Username must not have any special characters</li>
-                <li *ngIf="usernameMessage">{{ usernameMessage }}</li>
+                <!-- <li *ngIf="usernameMessage">{{ usernameMessage }}</li> -->
               </ul>
             </div>
           </div>

@@ -15,9 +15,12 @@ export class JournalComponent implements OnInit {
   newPost = false;
   loadingJournals = false;
   form;
+  commentForm;
   processing = false;
   username;
   journalPosts;
+  newComment = [];
+  enabledComments = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -25,6 +28,7 @@ export class JournalComponent implements OnInit {
     private journalService: JournalService,
   ) {
     this.createNewJournalForm();
+    this.createCommentForm();
   }
 
   createNewJournalForm() {
@@ -41,6 +45,24 @@ export class JournalComponent implements OnInit {
         Validators.minLength(5),
       ])]
     });
+  }
+
+  createCommentForm() {
+    this.commentForm = this.formBuilder.group({
+      comment: ['', Validators.compose([
+        Validators.required,
+        Validators.maxLength(200),
+        Validators.minLength(1)
+      ])]
+    });
+  }
+
+  enableCommentForm() {
+    this.commentForm.get('comment').enable();
+  }
+
+  disableCommentForm() {
+    this.commentForm.get('comment').disable();
   }
 
   enableNewJournalForm() {
@@ -74,8 +96,18 @@ export class JournalComponent implements OnInit {
     }, 4000);
   }
 
-  draftComment() {
+  draftComment(id) {
+    this.commentForm.reset();
+    this.newComment = [];
+    this.newComment.push(id);
+  }
 
+  cancelSubmission(id) {
+    const index = this.newComment.indexOf(id);
+    this.newComment.splice(index, 1);
+    this.commentForm.reset();
+    this.enableCommentForm();
+    this.processing = false;
   }
 
   onJournalSubmit() {
@@ -157,6 +189,32 @@ export class JournalComponent implements OnInit {
     this.journalService.dislikeJournal(id).subscribe(data => {
       this.getAllJournals();
     });
+  }
+
+  postComment(id) {
+    this.disableCommentForm();
+    this.processing = true;
+    const comment = this.commentForm.get('comment').value;
+    this.journalService.postComment(id, comment).subscribe(data => {
+      this.getAllJournals();
+      const index = this.newComment.indexOf(id);
+      this.newComment.splice(index, 1);
+      this.enableCommentForm();
+      this.commentForm.reset();
+      this.processing = false;
+      if (this.enabledComments.indexOf(id) < 0) {
+        this.expand(id);
+      }
+    });
+  }
+
+  expand(id) {
+    this.enabledComments.push(id);
+  }
+
+  collapse(id) {
+    const index = this.enabledComments.indexOf(id);
+    this.enabledComments.splice(index, 1);
   }
 
   ngOnInit() {

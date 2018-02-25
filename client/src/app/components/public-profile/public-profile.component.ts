@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-public-profile',
@@ -7,9 +9,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PublicProfileComponent implements OnInit {
 
-  constructor() { }
+  currentUrl;
+  username;
+  email;
+  foundProfile = false;
+  messageClass;
+  message;
+
+  constructor(
+    private authService: AuthService,
+    private activeRoute: ActivatedRoute
+  ) { }
 
   ngOnInit() {
+    this.currentUrl = this.activeRoute.snapshot.params;
+    this.authService.getPublicProfile(this.currentUrl.username).subscribe(data => {
+      if (!data.success) {
+        this.messageClass = 'alert alert-danger';
+        this.message = data.message;
+      } else {
+        this.username = data.user.username;
+        this.email = data.user.email;
+        this.foundProfile = true;
+      }
+    });
   }
 
 }

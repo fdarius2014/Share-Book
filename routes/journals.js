@@ -137,7 +137,7 @@ module.exports = (router) => {
                   if (user.username !== journal.createdBy) {
                     res.json({
                       success: false,
-                      message: 'You are not authorized to edit this blog.'
+                      message: 'You are not authorized to edit this journal.'
                     });
                   } else {
                     res.json({
@@ -477,6 +477,76 @@ module.exports = (router) => {
           }
         }
       });
+    }
+  });
+
+  router.post('/comment', (req, res) => {
+    if (!req.body.comment) {
+      res.json({
+        success: false,
+        message: 'No comment provided'
+      });
+    } else {
+      if (!req.body.id) {
+        res.json({
+          success: false,
+          message: 'No id was provided'
+        });
+      } else {
+        Journal.findOne({
+          _id: req.body.id
+        }, (err, journal) => {
+          if (err) {
+            res.json({
+              success: false,
+              message: 'Invalid journal id'
+            });
+          } else {
+            if (!journal) {
+              res.json({
+                success: false,
+                message: 'Journal not found'
+              });
+            } else {
+              User.findOne({
+                _id: req.decoded.userId
+              }, (err, user) => {
+                if (err) {
+                  res.json({
+                    success: false,
+                    message: 'Something went wrong'
+                  });
+                } else {
+                  if (!user) {
+                    res.json({
+                      success: false,
+                      message: 'User not found'
+                    });
+                  } else {
+                    journal.comments.push({
+                      comment: req.body.comment,
+                      commentator: user.username
+                    });
+                    journal.save((err) => {
+                      if (err) {
+                        res.json({
+                          success: false,
+                          message: 'Something went wrong'
+                        });
+                      } else {
+                        res.json({
+                          success: true,
+                          message: 'Comment saved'
+                        });
+                      }
+                    });
+                  }
+                }
+              });
+            }
+          }
+        });
+      }
     }
   });
 

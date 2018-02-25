@@ -60,4 +60,13 @@ export class JournalService {
     return this.http.put(this.domain + 'journals/dislikeJournal', journalData, this.options).map(res => res.json());
   }
 
+  postComment(id, comment) {
+    this.createAuthenticationHeaders();
+    const journalData = {
+      id: id,
+      comment: comment
+    };
+    return this.http.post(this.domain + 'journals/comment', journalData, this.options).map(res => res.json());
+  }
+
 }

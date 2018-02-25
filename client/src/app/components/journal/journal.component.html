@@ -3,13 +3,17 @@
     <div class="col-md-9 main-content">
       <h1 class="page-header">Journal Feed</h1>
 
+      <!-- Custom Success/Error Message -->
       <div *ngIf="message && newPost">
         <div [ngClass]="messageClass">
           {{ message }}
         </div>
       </div>
+
       <div class="button-wrapper">
+        <!-- New Post Button -->
         <button type="button" name="button" class="btn btn-warning btn-circle btn-lg" *ngIf="!newPost" (click)="newJournalForm()" data-tooltip="New Post"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+        <!-- Reload Button -->
         <button [disabled]="loadingJournals" type="button" name="button" class="btn btn-info btn-circle btn-lg" *ngIf="!newPost" (click)="reloadJournals()" style="margin-left: 20px;" data-tooltip="Reload"><i class="fa fa-repeat" aria-hidden="true"></i></button>
       </div>
 
@@ -19,9 +23,11 @@
       <!--New Journal Form -->
       <form [formGroup]="form" name="journalForm" (submit)="onJournalSubmit()" *ngIf="newPost">
         <div class="form-group">
+          <!-- Title Input -->
           <label for="title">Title</label>
           <div [ngClass]="{'has-success': form.controls.title.valid, 'has-error': form.controls.title.dirty && form.controls.title.errors}">
             <input type="text" name="title" class="form-control" placeholder="*Journal Title" autocomplete="off" formControlName="title" />
+            <!-- Validation -->
             <ul class="help-block">
               <li *ngIf="form.controls.title.dirty && form.controls.title.errors?.required">This field is required.</li>
               <li *ngIf="(form.controls.title.dirty && form.controls.title.errors?.minlength) || (form.controls.title.dirty && form.controls.title.errors?.maxlength)">Max length: 50, Min length: 5</li>
@@ -29,32 +35,41 @@
             </ul>
           </div>
         </div>
+
+        <!-- Body Input -->
         <div class="form-group">
           <label for="title">Body</label>
           <div [ngClass]="{'has-success': form.controls.body.valid, 'has-error': form.controls.body.dirty && form.controls.body.errors}">
             <textarea name="body" rows="8" cols="80" placeholder="*Body" class="form-control" formControlName="body"></textarea>
+            <!-- Validation -->
             <ul class="help-block">
               <li *ngIf="form.controls.body.dirty && form.controls.body.errors?.required">This field is required.</li>
               <li *ngIf="(form.controls.body.dirty && form.controls.body.errors?.minlength) || (form.controls.body.dirty && form.controls.body.errors?.maxlength)">Max length: 500, Min length: 5</li>
             </ul>
           </div>
         </div>
+        <!-- Go Back Button -->
         <button [disabled]="processing" type="button" name="button" class="btn btn-warning" (click)="goBack()">Go Back</button>
+        <!-- Submit Button -->
         <button [disabled]="processing || !form.valid" type="submit" name="button" class="btn btn-success">Submit</button>
       </form>
       <!--New Journal Form Ending -->
 
+      <!-- Card Start -->
       <div *ngIf="!newPost" class="container-fluid">
+        <!-- Card Outer Layer -->
         <div class="card" *ngFor="let journal of journalPosts" style="margin-top: 20px !important; font-weight: 100; max-width: 500px; margin: auto;">
+          <!-- Card Title -->
           <div class="card-header" style="background-color: #851854; color: white; height: 50px; opacity: 0.65">
             <h4 class="card-title text-center" style="font-weight: 300;">{{ journal.title }}</h4>
           </div>
+          <!-- Card Body -->
           <div class="card-block" style="margin-top: 15px; margin-bottom: 15px;">
             <div class="card-text container">
               {{ journal.body }}
             </div>
           </div>
-          <!--start footer-->
+          <!-- Card Footer Start -->
           <div class="card-footer">
             <strong>Posted by: </strong>{{ journal.createdBy }}
             <br />
@@ -62,16 +77,23 @@
             <br />
             <div *ngIf="username === journal.createdBy">
               <strong>Likes: </strong>{{ journal.likes }}
-              <br />
-              <strong>Dislikes: </strong>{{ journal.dislikes }}
+              <strong style="margin-left: 10px;">Dislikes: </strong>{{ journal.dislikes }}
             </div>
-            <a [routerLink]="['/edit-journal/', journal._id]" *ngIf="username === journal.createdBy"><button type="button" name="button" class="btn btn-sm btn-info">Edit</button></a>
-            <a *ngIf="username === journal.createdBy"><button type="button" name="button" class="btn btn-sm btn-danger" (click)="deleteJournal(journal._id, journal.title)">Delete</button></a>
+            <!-- buttons for card footer -->
+            <div style="margin-top: 10px;">
+              <!-- Edit Button -->
+              <a [routerLink]="['/edit-journal/', journal._id]" *ngIf="username === journal.createdBy"><button type="button" name="button" class="btn btn-sm btn-info circular-button"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+              <!-- Delete Button -->
+              <a *ngIf="username === journal.createdBy" style="margin-left: 10px;"><button type="button" name="button" class="btn btn-sm btn-danger circular-button" (click)="deleteJournal(journal._id, journal.title)"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
+            </div>
+
             <!-- likes dropdown begin-->
             <div *ngIf="username !== journal.createdBy" class="dropdown" style="margin-top: 10px;">
+              <!-- Like Button -->
               <button [disabled]="journal.likedBy.indexOf(username) > -1" type="button" name="button" class="btn btn-success btn-circle" (click)="likeJournal(journal._id)">
                 <i class="fa fa-thumbs-up" aria-hidden="true">&nbsp;</i>
               </button> {{ journal.likes }}
+              <!-- Dropdown Menu Items -->
               <div class="dropdown-content">
                 <a [routerLink]="['/user/', liker]" *ngFor="let liker of journal.likedBy">{{ liker }}</a>
               </div>
@@ -79,9 +101,11 @@
             <!--likes dropdown end -->
             <!-- dislikes dropdown begin-->
             <div *ngIf="username !== journal.createdBy" class="dropdown">
+              <!-- Dislike Button -->
               <button [disabled]="journal.dislikedBy.indexOf(username) > -1" type="button" name="button" class="btn btn-success btn-circle" (click)="dislikeJournal(journal._id)" style="margin-left:10px;">
                 <i class="fa fa-thumbs-down" aria-hidden="true">&nbsp;</i>
               </button> {{ journal.dislikes }}
+              <!-- Dropdown Menu Items -->
               <div class="dropdown-content">
                 <a [routerLink]="['/user/', disliker]" *ngFor="let disliker of journal.dislikedBy">{{ disliker}}</a>
               </div>
@@ -89,68 +113,144 @@
             <!--dislikes dropdown end -->
           </div>
           <!-- end footer-->
+
+          <!-- Post Comment Box: Start -->
           <ul class="list-group">
             <li class="list-group-item">
-              <button type="button" name="button" class="btn btn-sm btn-danger" (click)="draftComment()" style="border-radius: 25px; font-weight: 100;">Post Comment</button>
+              <!-- Post Comment Button -->
+              <button type="button" name="button" class="btn btn-sm btn-danger" (click)="draftComment(journal._id)" style="border-radius: 25px; font-weight: 100;" [disabled]="newComment.indexOf(journal._id) > -1">Post Comment</button>
               <br />
-              <!-- <form>
-                <textarea name="comment" rows="10" cols="30" class="form-control"></textarea>
-                <button type="button" name="button" class="btn btn-sm btn-info">Submit Post</button>
-                <button type="button" name="button" class="btn btn-sm btn-danger">Cancel Comment</button>
-              </form> -->
-            </li>
+              <br *ngIf="newComment.indexOf(journal._id) > -1" />
+              <div *ngIf="newComment.indexOf(journal._id) > -1">
+                <!-- Form: Comment Form Start -->
+                <form [formGroup]="commentForm">
+                  <!-- Textarea Input -->
+                  <textarea name="comment" rows="10" cols="30" class="form-control" formControlName="comment"></textarea>
+                  <!-- Validation -->
+                  <div [ngClass]="{'has-success': !commentForm.controls.comment.errors && commentForm.controls.comment.dirty, 'has-error': commentForm.controls.comment.dirty && commentForm.controls.comment.errors}" style="margin-bottom: 10px;">
+                    <ul class="help-block">
+                      <li *ngIf="commentForm.controls.comment.errors?.required && commentForm.controls.comment.dirty">This field is required.</li>
+                      <li *ngIf="(commentForm.controls.comment.errors?.maxlength && commentForm.controls.comment.dirty) || (commentForm.controls.comment.errors?.minlength && commentForm.controls.comment.dirty)">Comment must be at least 1 character but no more than 200.</li>
+                    </ul>
+                  </div>
+                  <!-- Post Button -->
+                  <button [disabled]="!commentForm.valid || processing" type="submit" name="button" class="btn btn-sm btn-info" (click)="postComment(journal._id)">Submit Post</button>
+                  <!-- Cancel Button -->
+                  <button [disabled]="processing" type="button" name="button" class="btn btn-sm btn-danger" (click)="cancelSubmission(journal._id)">Cancel Comment</button>
+                </form>
+                <!-- Form: Comment Form End -->
+              </div>
+              <!-- Show Comments -->
+              <li *ngIf="enabledComments.indexOf(journal._id) === -1 && journal.comments.length > 0" class="list-group-item">
+                <span (click)="expand(journal._id)" style="cursor: pointer">
+                  Show Comments&nbsp;&nbsp;
+                  <i class="fa fa-comment-o" aria-hidden="true"></i>
+                </span>
+              </li>
+              <!-- Hide Comments -->
+              <li *ngIf="enabledComments.indexOf(journal._id) > -1" class="list-group-item">
+                <span (click)="collapse(journal._id)" style="cursor: pointer">
+                  Hide Comments&nbsp;&nbsp;
+                  <i class="fa fa-comment-o" aria-hidden="true"></i>
+                </span>
+              </li>
+              <!-- Comment -->
+              <div *ngIf="enabledComments.indexOf(journal._id) > -1">
+                <li *ngFor="let comment of journal.comments" class="list-group-item">
+                  <strong>{{ comment.commentator }}:</strong> {{ comment.comment }}
+                </li>
+              </div>
+            <!-- </li> -->
           </ul>
+          <!-- Post Comment Box: End -->
         </div>
       </div>
     </div>
     <div class="col-md-3 side-pane">
-      <table class="group-table table summary-table">
-                               <thead class="table-setting">
-                                   <tr>
-                                       <th class="col-1"><p>Date</p></th>
-                                       <th>Details</th>
-                                       <th></th>
-                                   </tr>
-                               </thead>
-                               <tbody>
-                                   <tr>
-                                       <td class="col-1"><p>Wed Jan 18, 2017</p></td>
-                                       <td class="col-2"><p><img src="images/Ico_Assignment_table@3x.png"><span style="padding-left: 15px;"><a href="">Week 1 Participation</a></span></p></td>
-                                       <td class="col-3"><p>due by 11:59 pm</p></td>
-                                   </tr>
+      <div style="margin-top: 140px;">
+        <div class="follow-suggestion" style="margin-bottom:20px;">
+          <div style="width: 30%">
+              <img class="avatar" src="../../assets/images/fran.jpg" />
+          </div>
+          <div style="width: 70%;">
+              <span>Francis Darius</span>
+              <span style="font-weight: 100; font-size: 14px;"><em>@francisd62</em></span>
+          </div>
+        </div>
+      </div>
 
-                                   <tr>
-                                       <td class="col-1"><p>Wed Jan 18, 2017</p></td>
-                                       <td class="col-2"><p><img src="images/Ico_Assignment_table@3x.png"><span style="padding-left: 15px;"><a href="">Week 1 Participation</a></span></p></td>
-                                       <td class="col-3"><p>due by 11:59 pm</p></td>
-                                   </tr>
+      <div class="suggestions-right-pane">
+        <div class="right-pane-card ">
+          <div class="inside-right-pane-card">
+            <h4 class="suggestions-header">Suggestions</h4>
+            <ul class="nav nav-tabs" role="tablist" style="margin: auto; margin-bottom: 20px !important;">
+              <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#follow" role="tab">Follow</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#journals" role="tab">Journals</a>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="follow" role="tabpanel">
+                <div class="follow-suggestion">
+                  <div style="width: 30%">
+                      <img class="avatar" src="../../assets/images/fran.jpg" />
+                  </div>
+                  <div style="width: 70%;">
+                      <span>Francis Hope</span>
+                      <button class="button button1">Follow</button>
+                  </div>
+                </div>
+                <div class="follow-suggestion">
+                  <div style="width: 30%">
+                      <img class="avatar" src="../../assets/images/shanpic.jpg" />
+                  </div>
+                  <div style="width: 70%;">
+                      <span>Shania Roberts</span>
+                      <button class="button button1">Follow</button>
+                  </div>
+                </div>
+                <div class="follow-suggestion">
+                  <div style="width: 30%">
+                      <img class="avatar" src="../../assets/images/valdez.jpg" />
+                  </div>
+                  <div style="width: 70%;">
+                      <span>Angela Valdez</span>
+                      <button class="button button1">Follow</button>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane" id="journals" role="tabpanel">
+                These are some journal you might be interested in
+                <label class="btn btn-primary" for="my-file-selector">
+                    <input id="my-file-selector" type="file" style="display:none;">
+                    Button Text Here
+                </label>
+                <div class="form-group">
+                  <label for="exampleInputFile">File input</label>
+                  <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
+                  <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-                                   <tr>
-                                       <td class="col-1" rowspan="2"><p>Wed Jan 18, 2017</p></td>
-                                       <td class="col-2"><p><img src="images/Ico_Assignment_table@3x.png"><span style="padding-left: 15px;"><a href="">Week 1 Participation</a></span></p></td>
-                                       <td class="col-3"><p>due by 11:59 pm</p></td>
-                                   </tr>
+      <div class="right-pane">
+        &copy; 2018
+        <a>ShareBook</a>
+        <a>Privacy</a> •
+        <a>Terms</a> •
+        <a>About</a> •
+        <a>Careers</a> •
+        <a>Cookies</a> •
+        <a>Marketing</a> •
+        <a>Developers</a> •
+        <a>Help</a>
 
-                                   <tr>
-                                       <td class="col-2"><p><img src="images/Ico_Assignment_table@3x.png"><span style="padding-left: 15px;"><a href="">Week 1 Participation</a></span></p></td>
-                                       <td class="col-3"><p>due by 11:59 pm</p></td>
-                                   </tr>
-
-                                   <tr>
-                                       <td class="col-1"><p>Wed Jan 18, 2017</p></td>
-                                       <td class="col-2"><p><img src="images/Ico_Assignment_table@3x.png"><span style="padding-left: 15px;"><a href="">Week 1 Participation</a></span></p></td>
-                                       <td class="col-3"><p>due by 11:59 pm</p></td>
-                                   </tr>
-
-                                   <tr>
-                                       <td class="col-1" rowspan="5"><p>Wed Jan 18, 2017</p></td>
-                                       <td class="col-2"><p><img src="images/Ico_Assignment_table@3x.png"><span style="padding-left: 15px;"><a href="">Week 1 Participation</a></span></p></td>
-                                       <td class="col-3"><p>due by 11:59 pm</p></td>
-                                   </tr>
-
-
-                               </tbody>
-                           </table>
+      </div>
     </div>
   </div>
 </div>
